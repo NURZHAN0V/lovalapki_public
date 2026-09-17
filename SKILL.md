@@ -45,29 +45,22 @@ public/
 - **Три CTA** pill-кнопки с подписями: `Telegram` / `MAX` / `VK`. Не возвращать одну кнопку из старого макета.
 - Без блока «Присоединяйтесь к нам» и без направляющей стрелки.
 - **Бренд в тексте страницы:** как на постере сообщества («Владельцы собак»). В UI пользователю не писать латиницу LovaLapki; в URL/коде — ок.
-- **Иконки фич:** AVIF + PNG fallback в отдельных кружках (сабкейки). Фон круга — единый `var(--beige)`, без «двойного» кольца. Подписи — только на фоне фото рядом; читаемость через левый veil + `text-shadow`. Фон героя — `hero.avif` + `hero.jpg`.
-- **Отдельный git:** лендинг пушится в `lovalapki_public` (remote `public`), не в `gulayka` (`origin`). См. раздел ниже.
+- **Иконки фич:** AVIF + PNG fallback в отдельных кружках. Фон круга — `#f3e3d1` (как в ассетах), без белого кольца. Подписи — на фоне фото рядом. Фон героя — `hero.avif` + `hero.jpg`.
 
 ## Git: не путать с gulayka
 
-Сейчас в этом клоне:
-- `origin` → `git@github.com:NURZHAN0V/gulayka.git` (основной продукт)
-- лендинг лежит в `public/` и **не должен** уезжать в gulayka случайно
+В корне gulayka в `.gitignore` стоит `public/`.
 
-Рекомендуемый вариант — **второй remote только для лендинга**:
+- gulayka: `origin` → `git@github.com:NURZHAN0V/gulayka.git`
+- лендинг: отдельный git **внутри** `public/`, `origin` → `git@github.com:NURZHAN0V/lovalapki_public.git`
 
 ```bash
-# один раз
-git remote add public git@github.com:NURZHAN0V/lovalapki_public.git
-
-# вынести историю только public/ и запушить (из корня gulayka)
-git subtree split --prefix=public -b public-landing
-git push public public-landing:main
+cd public
+git add -A && git commit -m "..."
+git push origin main
 ```
 
-Альтернатива ещё чище: отдельный клон/папка только с содержимым `public/`, свой `git init`, `origin` = `lovalapki_public`. Тогда два репо физически разные — перепутать remotes нельзя.
-
-**Не делать:** `git remote set-url origin …lovalapki_public` — сломает push основного gulayka.
+**Не делать:** `git remote set-url origin …lovalapki_public` в корне gulayka.
 
 ## Правки
 
